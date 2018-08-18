@@ -618,14 +618,14 @@
     
 
     $(function() {
-      $.get('https://app-router.leancloud.cn/2/route?appId=' + "iguwnmVyWQ32iHmMCUE9Hssrd-gzGzoHsz")
+      $.get('https://app-router.leancloud.cn/2/route?appId=' + "guwnmVyWQ32iHmMCUE9Hssrd-gzGzoHsz")
         .done(function ({ api_server }) {
           var Counter = function (method, url, data) {
             return $.ajax({
               method: method,
               url: `https://${api_server}/1.1${url}`,
               headers: {
-                'X-LC-Id': "iguwnmVyWQ32iHmMCUE9Hssrd-gzGzoHsz",
+                'X-LC-Id': "guwnmVyWQ32iHmMCUE9Hssrd-gzGzoHsz",
                 'X-LC-Key': "5J1BwkvD5N4NiK1KDGgpd4a5",
                 'Content-Type': 'application/json',
               },
