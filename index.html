@@ -323,7 +323,7 @@
                 
               
 
-              <time title="Created: 2018-12-08 16:27:36" itemprop="dateCreated datePublished" datetime="2018-12-08T16:27:36+08:00">2018-12-08</time>
+              <time title="Created: 2018-12-08 16:31:52" itemprop="dateCreated datePublished" datetime="2018-12-08T16:31:52+08:00">2018-12-08</time>
             
 
             
@@ -370,15 +370,15 @@
       
         
           
-            <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>公司主机 <font color="#A52A52A" bgcolor="">A</font>(192.168.1.10)-&gt; VPS 服务器 S(123.123.123.123) -&gt; 家里主机 B(192.168.8.10).</p>
+            <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>公司主机 A (192.168.1.10)-&gt; VPS 服务器 S(123.123.123.123) -&gt; 家里主机 B(192.168.8.10).</p>
 <h3 id="配置免密登录"><a href="#配置免密登录" class="headerlink" title="配置免密登录"></a>配置免密登录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用ssh-keygen生成一对rsa公私钥，生成的密钥对会存放在~/.ssh目录下。</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># N的公钥拷贝给W，输入密码即可</span></span><br><span class="line">ssh-copy-id root@123.123.123.123 -p 22</span><br></pre></td></tr></table></figure>
 <h3 id="在B上配置反向隧道"><a href="#在B上配置反向隧道" class="headerlink" title="在B上配置反向隧道"></a>在B上配置反向隧道</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装autossh</span></span><br><span class="line">sudo apt-get install autossh</span><br><span class="line"><span class="comment"># 配置ssh反向隧道</span></span><br><span class="line">autossh -M 5678 -fNR 1234:localhost:22 root@123.123.123.123 -p22</span><br></pre></td></tr></table></figure>
 <ul>
-<li>M 监听 W 公网服务器端口，只要断开就重连</li>
-<li>f 选项传递给 ssh 命令，让 SSH 隧道在后台运行。</li>
-<li>N 不允许执行远程命令</li>
-<li>R 1234:localhost:22: 将 B 主机的22端口和 VPS 的1234端口绑定，相当于远程端口映射</li>
-<li>o XXXX 选项让 ssh：<br>   使用密钥验证，而不是密码验证。<br>   自动接受（未知）SSH 主机密钥。<br>   每 60 秒交换 keep-alive 消息。<br>   没有收到任何响应时最多发送 3 条 keep-alive 消息。</li>
+<li>M: 监听 W 公网服务器端口，只要断开就重连</li>
+<li>f: 选项传递给 ssh 命令，让 SSH 隧道在后台运行。</li>
+<li>N: 不允许执行远程命令</li>
+<li>R: 1234:localhost:22: 将 B 主机的22端口和 VPS 的1234端口绑定，相当于远程端口映射</li>
+<li>o: XXXX 选项让 ssh：<br>   使用密钥验证，而不是密码验证。<br>   自动接受（未知）SSH 主机密钥。<br>   每 60 秒交换 keep-alive 消息。<br>   没有收到任何响应时最多发送 3 条 keep-alive 消息。</li>
 </ul>
 <p>如果你想系统启动时自动运行 SSH 隧道，你可以将上面的 autossh 命令添加到 /etc/rc.local。</p>
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>在测试机上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh userN@123.123.123.123 -p 1234</span><br></pre></td></tr></table></figure></p>
