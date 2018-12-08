@@ -108,20 +108,24 @@
 
 
 
-  <meta property="og:type" content="website">
+  <meta name="description" content="SSH内网穿透准备公司主机 A(192.168.1.10)-&amp;gt; VPS 服务器 S(123.123.123.123) -&amp;gt; 家里主机 B(192.168.8.10). 配置免密登录1234# 使用ssh-keygen生成一对rsa公私钥，生成的密钥对会存放在~/.ssh目录下。ssh-keygen# N的公钥拷贝给W，输入密码即可ssh-copy-id root@123.123.123">
+<meta property="og:type" content="article">
 <meta property="og:title" content="FreeMan">
-<meta property="og:url" content="http://freeman.one/index.html">
+<meta property="og:url" content="http://freeman.one/2018/12/08/ssh_tunnel/index.html">
 <meta property="og:site_name" content="FreeMan">
+<meta property="og:description" content="SSH内网穿透准备公司主机 A(192.168.1.10)-&amp;gt; VPS 服务器 S(123.123.123.123) -&amp;gt; 家里主机 B(192.168.8.10). 配置免密登录1234# 使用ssh-keygen生成一对rsa公私钥，生成的密钥对会存放在~/.ssh目录下。ssh-keygen# N的公钥拷贝给W，输入密码即可ssh-copy-id root@123.123.123">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-12-08T08:15:47.344Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="FreeMan">
+<meta name="twitter:description" content="SSH内网穿透准备公司主机 A(192.168.1.10)-&amp;gt; VPS 服务器 S(123.123.123.123) -&amp;gt; 家里主机 B(192.168.8.10). 配置免密登录1234# 使用ssh-keygen生成一对rsa公私钥，生成的密钥对会存放在~/.ssh目录下。ssh-keygen# N的公钥拷贝给W，输入密码即可ssh-copy-id root@123.123.123">
 
 
 
 
 
 
-  <link rel="canonical" href="http://freeman.one/"/>
+  <link rel="canonical" href="http://freeman.one/2018/12/08/ssh_tunnel/"/>
 
 
 
@@ -131,7 +135,7 @@
   };
 </script>
 
-  <title>FreeMan</title>
+  <title> | FreeMan</title>
   
 
 
@@ -178,8 +182,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -216,7 +219,7 @@
         
         
           
-          <li class="menu-item menu-item-home menu-item-active">
+          <li class="menu-item menu-item-home">
     <a href="/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
   </li>
@@ -260,9 +263,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -295,10 +298,6 @@
         
         
           <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/08/ssh_tunnel/" itemprop="url">
-                  Untitled
-                </a>
               
             
           </h1>
@@ -368,9 +367,7 @@
       
 
       
-        
-          
-            <h1 id="SSH内网穿透"><a href="#SSH内网穿透" class="headerlink" title="SSH内网穿透"></a>SSH内网穿透</h1><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>公司主机 <font color="#A52A52A" bgcolor="">A</font>(192.168.1.10)-&gt; VPS 服务器 S(123.123.123.123) -&gt; 家里主机 B(192.168.8.10).</p>
+        <h1 id="SSH内网穿透"><a href="#SSH内网穿透" class="headerlink" title="SSH内网穿透"></a>SSH内网穿透</h1><h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>公司主机 <font color="#A52A52A" bgcolor="">A</font>(192.168.1.10)-&gt; VPS 服务器 S(123.123.123.123) -&gt; 家里主机 B(192.168.8.10).</p>
 <h3 id="配置免密登录"><a href="#配置免密登录" class="headerlink" title="配置免密登录"></a>配置免密登录</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用ssh-keygen生成一对rsa公私钥，生成的密钥对会存放在~/.ssh目录下。</span></span><br><span class="line">ssh-keygen</span><br><span class="line"><span class="comment"># N的公钥拷贝给W，输入密码即可</span></span><br><span class="line">ssh-copy-id root@123.123.123.123 -p 22</span><br></pre></td></tr></table></figure>
 <h3 id="在B上配置反向隧道"><a href="#在B上配置反向隧道" class="headerlink" title="在B上配置反向隧道"></a>在B上配置反向隧道</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装autossh</span></span><br><span class="line">sudo apt-get install autossh</span><br><span class="line"><span class="comment"># 配置ssh反向隧道</span></span><br><span class="line">autossh -M 5678 -fNR 1234:localhost:22 root@123.123.123.123 -p22</span><br><span class="line">autossh -M 5678 -fN -o <span class="string">"PubkeyAuthentication=yes"</span> -o <span class="string">"StrictHostKeyChecking=false"</span> -o <span class="string">"PasswordAuthentication=no"</span> -o <span class="string">"ServerAliveInterval 60"</span> -o <span class="string">"ServerAliveCountMax 3"</span> -R 1234:localhost:22 root@123.123.123.123 -p22</span><br></pre></td></tr></table></figure>
 <p>-M 监听 W 公网服务器端口，只要断开就重连<br>-f 选项传递给 ssh 命令，让 SSH 隧道在后台运行。<br>-N 不允许执行远程命令<br>-R 1234:localhost:22: 将 B 主机的22端口和 VPS 的1234端口绑定，相当于远程端口映射<br>-o XXXX 选项让 ssh：<br>     使用密钥验证，而不是密码验证。<br>     自动接受（未知）SSH 主机密钥。<br>     每 60 秒交换 keep-alive 消息。<br>     没有收到任何响应时最多发送 3 条 keep-alive 消息。</p>
@@ -378,8 +375,6 @@
 <h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>在测试机上<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh userN@123.123.123.123 -p 1234</span><br></pre></td></tr></table></figure></p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://blog.huzhifeng.com/2016/09/04/autossh/" target="_blank" rel="noopener">内网穿透之 autossh</a></p>
 
-          
-        
       
     </div>
 
@@ -399,167 +394,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://freeman.one/2018/08/14/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiao Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FreeMan">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/14/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
+              <a href="/2018/08/14/hello-world/" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
+              </a>
             
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-08-14 15:32:16" itemprop="dateCreated datePublished" datetime="2018-08-14T15:32:16+08:00">2018-08-14</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/08/14/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views: </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -569,14 +425,15 @@
   </article>
 
 
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -597,8 +454,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -643,6 +509,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#SSH内网穿透"><span class="nav-number">1.</span> <span class="nav-text">SSH内网穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备"><span class="nav-number">1.0.1.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置免密登录"><span class="nav-number">1.0.2.</span> <span class="nav-text">配置免密登录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在B上配置反向隧道"><span class="nav-number">1.0.3.</span> <span class="nav-text">在B上配置反向隧道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试"><span class="nav-number">1.0.4.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">1.0.5.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -773,6 +655,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
 
   
 
@@ -807,43 +693,37 @@
   
   <script>
     
-    function showTime(Counter) {
-      var entries = [];
+    function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
 
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
         .done(function ({ results }) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.url;
-            var time = item.time;
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
           }
         })
-        .fail(function ({ responseJSON }) {
-          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
-        });
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
     }
     
 
@@ -863,9 +743,7 @@
             });
           };
           
-          if ($('.post-title-link').length >= 1) {
-            showTime(Counter);
-          }
+          addCount(Counter);
           
         })
     });
