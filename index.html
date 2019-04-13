@@ -323,7 +323,7 @@
                 
               
 
-              <time title="Created: 2019-04-13 21:55:12 / Modified: 22:20:39" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
+              <time title="Created: 2019-04-13 21:55:12 / Modified: 22:27:07" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
             
 
             
@@ -389,7 +389,7 @@ L_{nll} = -\sum_{t=1}^T \log p(y_t|y_1,...,y_{t-1}, x) \tag{1}\label{eq1}</scrip
 </ul>
 <h3 id="目标函数"><a href="#目标函数" class="headerlink" title="目标函数"></a>目标函数</h3><p>训练的目标就是找到参数以最大化反馈（reward）$r( y )$。loss定义为负的反馈期望（negative expected reward）：</p>
 <script type="math/tex; mode=display">
-L_{rl} = - \sum_{y}p(y|x,\theta)r(y) = -\mathbb{E}_{y \sim p(y|x,\theta)}r(y) \tag{2}\label{eq2}</script><p>公式含义为：给定上下文 $x$ ，对所有可能生成的序列 $y$ 的<strong>反馈</strong>计算概率加权和。最大化期望和，也就是更新参数，使得反馈越大的序列，生成出来的概率越大。然而生成的序列 $y$ 的可能组合太多，完全计算所有可能的序列，然后再计算梯度下降更新几乎不可能。在实际中采用近似处理，即根据模型得到的概率函数 $p(y|x,\theta)$ <strong>采样（Sampling）</strong>一个序列 $y^s$ (即 $y<em>1^s,…,y_T^s$)。具体就是对每一个time step $t$，根据概率 $p(y_t|y_1,…,y</em>{t-1}, x, \theta)$ 随机选择一个输出 $y_t^s$ 。</p>
+L_{rl} = - \sum_{y}p(y|x,\theta)r(y) = -\mathbb{E}_{y \sim p(y|x,\theta)}r(y) \tag{2}\label{eq2}</script><p>公式含义为：给定上下文 $x$ ，对所有可能生成的序列 $y$ 的<strong>反馈</strong>计算概率加权和。最大化期望和，也就是更新参数，使得反馈越大的序列，生成出来的概率越大。然而生成的序列 $y$ 的可能组合太多，完全计算所有可能的序列，然后再计算梯度下降更新几乎不可能。在实际中采用近似处理，即根据模型得到的概率函数 $p(y|x,\theta)$ <strong>采样（Sampling）</strong> 一个序列 $y^s$ (即 $y<em>1^s,…,y_T^s$)。具体就是对每一个time step $t$，根据概率 $p(y_t|y_1,…,y</em>{t-1},x,\theta)$ 随机选择一个输出 $y_t^s$ 。</p>
 <script type="math/tex; mode=display">
 L_{rl} \approx -r(y^s)\sum_{t=1}^T \log p(y_t^s|y_1^s,...,y_{t-1}^s, x, \theta) \tag{3}\label{eq3}</script><p>对比公式$\eqref{eq1}$和公式$\eqref{eq3}$，这里有两点区别：</p>
 <ol>
