@@ -115,7 +115,7 @@
 <meta property="og:site_name" content="FreeMan">
 <meta property="og:description" content="介绍序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：  L_">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-13T14:02:33.208Z">
+<meta property="og:updated_time" content="2019-04-13T14:20:39.598Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习与序列生成">
 <meta name="twitter:description" content="介绍序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：  L_">
@@ -322,7 +322,7 @@
                 
               
 
-              <time title="Created: 2019-04-13 21:55:12 / Modified: 22:02:33" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
+              <time title="Created: 2019-04-13 21:55:12 / Modified: 22:20:39" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
             
 
             
@@ -380,13 +380,13 @@ L_{nll} = -\sum_{t=1}^T \log p(y_t|y_1,...,y_{t-1}, x) \tag{1}\label{eq1}</scrip
 <ul>
 <li>agent: 序列生成模型（RNN等）</li>
 <li>action: 在每一个时间步骤选择下一个输出（词或标注等）</li>
-<li>policy: agent的参数$\theta​$</li>
+<li>policy: agent的参数$\theta$</li>
 <li>state: 模型内部状态（如RNN的hidden units）</li>
 <li>reward: 可是任何评估函数分值，如ROUGE等，可在每个action后获得反馈，也可在序列生成完后再反馈</li>
 </ul>
 <h3 id="目标函数"><a href="#目标函数" class="headerlink" title="目标函数"></a>目标函数</h3><p>训练的目标就是找到参数以最大化反馈（reward）$r( y )$。loss定义为负的反馈期望（negative expected reward）：</p>
 <script type="math/tex; mode=display">
-L_{rl} = - \sum_{y}p(y|x,\theta)r(y) = -\mathbb{E}_{y \sim p(y|x,\theta)}r(y) \tag{2}\label{eq2}</script><p>公式含义为：给定上下文 $x​$ ，对所有可能生成的序列 $y​$ 的<strong>反馈</strong>计算概率加权和。最大化期望和，也就是更新参数，使得反馈越大的序列，生成出来的概率越大。然而生成的序列 $y​$ 的可能组合太多，完全计算所有可能的序列，然后再计算梯度下降更新几乎不可能。在实际中采用近似处理，即根据模型得到的概率函数 $p(y|x,\theta)​$ <strong>采样（Sampling）</strong>一个序列 $y^s​$ (即 $y<em>1^s,…,y_T^s​$)。具体就是对每一个time step $t​$，根据概率 $p(y_t|y_1,…,y</em>{t-1}, x, \theta)​$ 随机选择一个输出 $y_t^s​$ 。</p>
+L_{rl} = - \sum_{y}p(y|x,\theta)r(y) = -\mathbb{E}_{y \sim p(y|x,\theta)}r(y) \tag{2}\label{eq2}</script><p>公式含义为：给定上下文 $x$ ，对所有可能生成的序列 $y$ 的<strong>反馈</strong>计算概率加权和。最大化期望和，也就是更新参数，使得反馈越大的序列，生成出来的概率越大。然而生成的序列 $y$ 的可能组合太多，完全计算所有可能的序列，然后再计算梯度下降更新几乎不可能。在实际中采用近似处理，即根据模型得到的概率函数 $p(y|x,\theta)$ <strong>采样（Sampling）</strong>一个序列 $y^s$ (即 $y<em>1^s,…,y_T^s$)。具体就是对每一个time step $t$，根据概率 $p(y_t|y_1,…,y</em>{t-1}, x, \theta)$ 随机选择一个输出 $y_t^s$ 。</p>
 <script type="math/tex; mode=display">
 L_{rl} \approx -r(y^s)\sum_{t=1}^T \log p(y_t^s|y_1^s,...,y_{t-1}^s, x, \theta) \tag{3}\label{eq3}</script><p>对比公式$\eqref{eq1}$和公式$\eqref{eq3}$，这里有两点区别：</p>
 <ol>
@@ -395,9 +395,9 @@ L_{rl} \approx -r(y^s)\sum_{t=1}^T \log p(y_t^s|y_1^s,...,y_{t-1}^s, x, \theta) 
 </ol>
 <h3 id="策略梯度和REINFORCE算法"><a href="#策略梯度和REINFORCE算法" class="headerlink" title="策略梯度和REINFORCE算法"></a>策略梯度和REINFORCE算法</h3><p>为了计算公式$\eqref{eq2}$的梯度，采用REINFORCE算法<sup><a href="#fn_2" id="reffn_2">2</a></sup><sup><a href="#fn_4" id="reffn_4">4</a></sup>。带有不可微分的反馈函数的期望梯度，可以按如下方式计算，即对策略的梯度（策略为参数$\theta$）：</p>
 <script type="math/tex; mode=display">
-\nabla_\theta L_{rl} = -\mathbb{E}_{y \sim p(y|x,\theta)}[r(y) \nabla_\theta \log p(y|x,\theta)]</script><p>像上面提到的一样，对每一个训练样本，根据概率 $p(y<em>t|y_1,…,y</em>{t-1}, x, \theta)​$用 Monte-Carlo采样一条序列$y^s = (y_1^s, … ,y_T^s)​$。通过采样得到 $y^s​$ 后，梯度公式就变为：</p>
+\nabla_\theta L_{rl} = -\mathbb{E}_{y \sim p(y|x,\theta)}[r(y) \nabla_\theta \log p(y|x,\theta)]</script><p>像上面提到的一样，对每一个训练样本，根据概率 $p(y<em>t|y_1,…,y</em>{t-1}, x, \theta)$用 Monte-Carlo采样一条序列$y^s = (y_1^s, … ,y_T^s)$。通过采样得到 $y^s$ 后，梯度公式就变为：</p>
 <script type="math/tex; mode=display">
-\nabla_\theta L_{rl} \approx r(y^s) \nabla_\theta \log p(y^s|x,\theta)</script><p>对比公式$\eqref{eq3}$ $L<em>{rl}$ 和公式$\eqref{eq1}$ $ L</em>{nll} $ ，可发现公式​$\eqref{eq3}$ $L<em>{rl}$ 相当于在梯度更新时添加了 $r(y^s)$ 权重，若序列分值越大梯度便越大，反之则梯度减弱。在实际训练的时候，因为随机采样的搜索空间太大，直接进行强化学习会导致不稳定和很难收敛。所以通常先用$L</em>{nll}$进行预训练，然后再使用用 $L_{rl}$ 训练。</p>
+\nabla_\theta L_{rl} \approx r(y^s) \nabla_\theta \log p(y^s|x,\theta)</script><p>对比公式$\eqref{eq3}$ $L<em>{rl}$ 和公式$\eqref{eq1}$ $ L</em>{nll} $ ，可发现公式$\eqref{eq3}$ $L<em>{rl}$ 相当于在梯度更新时添加了 $r(y^s)$ 权重，若序列分值越大梯度便越大，反之则梯度减弱。在实际训练的时候，因为随机采样的搜索空间太大，直接进行强化学习会导致不稳定和很难收敛。所以通常先用$L</em>{nll}$进行预训练，然后再使用用 $L_{rl}$ 训练。</p>
 <h3 id="REINFORCE-with-a-Baseline"><a href="#REINFORCE-with-a-Baseline" class="headerlink" title="REINFORCE with a Baseline"></a>REINFORCE with a Baseline</h3><p>Ranzato文章<sup><a href="#fn_1" id="reffn_1">1</a></sup>指出REINFORCE算法会先建立一个baseline $\bar{r}_{t}$。引入baseline后目标函数为（非原文中的公式，此处根据理解改写）：</p>
 <script type="math/tex; mode=display">
 L_{rl} = - \sum_{t=1}^T （r(y^s) - \bar{r}_{t}) \log p(y_t^s|y_1^s,...,y_{t-1}^s, x, \theta) \tag{4} \label{eq4}</script><p>$\bar{r}<em>t$含义为：如果$r(y^s) &gt; \bar{r}_t$，鼓励选择当前的输出$y_t^s$，梯度方向为增大$y_t^s$的概率，反之则减少其概率。文中 $\bar{r}_t$ 用RNN的隐藏变量$\mathbf{h}_t$作为输入，使用线性回归模型，$\bar{r}_t = w \cdot \mathbf{h}_t + b $，用最小化损失函数$||\bar{r}</em>{t}^s - r(y^s)||^2$进行训练。</p>
@@ -405,17 +405,17 @@ L_{rl} = - \sum_{t=1}^T （r(y^s) - \bar{r}_{t}) \log p(y_t^s|y_1^s,...,y_{t-1}^
 <h3 id="Self-critical-Policy-Gradient"><a href="#Self-critical-Policy-Gradient" class="headerlink" title="Self-critical Policy Gradient"></a>Self-critical Policy Gradient</h3><p>与Ranzato et al.(2016)<sup><a href="#fn_1" id="reffn_1">1</a></sup>不同是，Renie et al.(2016)<sup><a href="#fn_5" id="reffn_5">5</a></sup> 首先介绍了常数$b$作为baseline，表明它不影响梯度的<strong>期望</strong>，但是可以减少梯度估计时的<strong>方差</strong>。然后Renie et al.使用了self-critical policy sequence training (SCST)算法。算法在训练的每一循环产生两个输出序列：</p>
 <ol>
 <li>$y^s$: 与上面相同，在每一个解码的步骤上根据 $p(y<em>t^s|y_1^s,…,y</em>{t-1}^s)$ 进行采样，随机选择 $y_t^s$ </li>
-<li>$\hat{y}​$: 在每一个解码的步骤上选择 $p(y<em>t^s|y_1^s,…,y</em>{t-1}^s)​$ 最大概率，即gready search选择 $\hat{y}_t​$ </li>
+<li>$\hat{y}$: 在每一个解码的步骤上选择 $p(y<em>t^s|y_1^s,…,y</em>{t-1}^s)$ 最大概率，即gready search选择 $\hat{y}_t$ </li>
 </ol>
 <p>得到两个序列后，强化学习的目标函数如下： </p>
 <script type="math/tex; mode=display">
-L_{rl} = -(r(y^s) - r(\hat{y})) \sum_{t=1}^T \log p(y_t^s|y_1^s,...,y_{t-1}^s, x) \tag{5} \label{eq5}</script><p>公式$\eqref{eq5}​$和公式$\eqref{eq3}​$对比多了一个基于gready search生成的序列$\hat{y}​$的反馈，作为矫正。也就是将$y^s​$和$\hat{y}​$进行对比，所以叫<strong>self-critical</strong>。梯度下降更新$L_{rl}​$ 的含义相当于，若$r(y^s) \gt r(\hat{y})​$，采样的结果比gready search结果好，<strong>增大</strong>采样到的 $y^s​$ 的概率，相反则减小其概率。而 $| r(y^s) - r(\hat{y}))|​$ 值就是一个弹性的学习率权重。</p>
+L_{rl} = -(r(y^s) - r(\hat{y})) \sum_{t=1}^T \log p(y_t^s|y_1^s,...,y_{t-1}^s, x) \tag{5} \label{eq5}</script><p>公式$\eqref{eq5}$和公式$\eqref{eq3}$对比多了一个基于gready search生成的序列$\hat{y}$的反馈，作为矫正。也就是将$y^s$和$\hat{y}$进行对比，所以叫<strong>self-critical</strong>。梯度下降更新$L_{rl}$ 的含义相当于，若$r(y^s) \gt r(\hat{y})$，采样的结果比gready search结果好，<strong>增大</strong>采样到的 $y^s$ 的概率，相反则减小其概率。而 $| r(y^s) - r(\hat{y}))|$ 值就是一个弹性的学习率权重。</p>
 <p>Paulus et al. (2018)<sup><a href="#fn_6" id="reffn_6">6</a></sup>将$L<em>{rl}$和$L</em>{nll}$合在一起，来训练生成式摘要抽取:</p>
 <script type="math/tex; mode=display">
-L_{mixed} = \gamma L_{nll} + (1-\gamma)L_{rl}</script><p>从最终的目标函数来看，强化学习起到作用基本是给目标函数添加了基于ROUGE或BLEU评估函数带来的权值。有意思的是，只用 $L_{rl}​$ 训练的结果在ROUGE评分上会比使用混合的高，但是人工评估，混合目标函数训练出的结果可读性和相关性会更好。这一点在下面的抽取式摘要中得到了类似的印证。</p>
+L_{mixed} = \gamma L_{nll} + (1-\gamma)L_{rl}</script><p>从最终的目标函数来看，强化学习起到作用基本是给目标函数添加了基于ROUGE或BLEU评估函数带来的权值。有意思的是，只用 $L_{rl}$ 训练的结果在ROUGE评分上会比使用混合的高，但是人工评估，混合目标函数训练出的结果可读性和相关性会更好。这一点在下面的抽取式摘要中得到了类似的印证。</p>
 <h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h5 id="coherence-reward"><a href="#coherence-reward" class="headerlink" title="coherence reward"></a>coherence reward</h5><p>Wu &amp; Hu, 2018<sup><a href="#fn_7" id="reffn_7">7</a></sup>文章使用强化学习，从文章中抽取句子，组合起来作为摘要。强化学习的架构基本相同，只是action变成一个二选一，通过{0, 1}判断是否抽取当前句子作为摘要。除此之外文中在使用ROUGE最为最终的反馈，还在每一个time step上引入了一个新的反馈coherence。最终训练时使用的目标函数为（非原文中的公式，而是基于理解和文中的算法步骤改写。）：</p>
 <script type="math/tex; mode=display">
-L_{rl} = - \sum_{t=1}^T  (r(y^s) + \lambda \sum_{i=t}^T{\tilde{r}_i}) \log p(y_t^s|y_1^s,...,y_{t-1}^s, x) \tag{6} \label{eq6}</script><p>公式中的 $\tilde{r}​$ 在每一个action后立刻得到coherence反馈。文中单独训练了一个网络来判断两句话的coherence分值。若当前句子被选取为摘要，则跟上一句选取为摘要的句子计算词、coherence分值，反之分值为0。</p>
+L_{rl} = - \sum_{t=1}^T  (r(y^s) + \lambda \sum_{i=t}^T{\tilde{r}_i}) \log p(y_t^s|y_1^s,...,y_{t-1}^s, x) \tag{6} \label{eq6}</script><p>公式中的 $\tilde{r}$ 在每一个action后立刻得到coherence反馈。文中单独训练了一个网络来判断两句话的coherence分值。若当前句子被选取为摘要，则跟上一句选取为摘要的句子计算词、coherence分值，反之分值为0。</p>
 <p>持续更新中…..</p>
 <h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><blockquote id="fn_1">
 <sup>1</sup>. Marc’Aurelio Ranzato, Sumit Chopra, Michael Auli, and Wojciech Zaremba. Sequence level training with recurrent neural networks. In <em>ICLR</em> 2016.<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
@@ -449,7 +449,7 @@ L_{rl} = - \sum_{t=1}^T  (r(y^s) + \lambda \sum_{i=t}^T{\tilde{r}_i}) \log p(y_t
 \begin{align}
 L & = -\sum_{t=1}^T \log p(y_t|y_1,...,y_{t-1}, x) \\
  & = -\sum_{t=1}^T \log(softmax(o_t) \mathbb{1}(y_t)) \\ 
-\end{align}</script><p>$\mathbb{1}(i)​$是一个指示器(indicator)，只有第$i​$元素为1，其余为0。$L​$对$o_t​$的梯度$\frac{\partial L}{\partial o_t}​$推导如下</p>
+\end{align}</script><p>$\mathbb{1}(i)$是一个指示器(indicator)，只有第$i$元素为1，其余为0。$L$对$o_t$的梯度$\frac{\partial L}{\partial o_t}$推导如下</p>
 <ol>
 <li>$o<em>{ti}=y_t$时，对$o</em>{ti}$的偏导为：</li>
 </ol>
@@ -459,7 +459,7 @@ L & = -\sum_{t=1}^T \log p(y_t|y_1,...,y_{t-1}, x) \\
  & = -\frac{\partial ( o_{ti} - \log({\sum_{j=1}^T e^{o_{tj}}}))}{\partial o_{ti}} \\
  & = - 1 + \frac{1}{\sum_{j=1}^T e^{o_{tj}}}e^{o_{ti}}
 \end{align}</script><ol>
-<li>$o<em>{tj} \neq y_t​$时，对$o</em>{ti}​$的偏导为：</li>
+<li>$o<em>{tj} \neq y_t$时，对$o</em>{ti}$的偏导为：</li>
 </ol>
 <script type="math/tex; mode=display">
 \begin{align}
