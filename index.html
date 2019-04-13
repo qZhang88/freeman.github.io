@@ -323,12 +323,24 @@
                 
               
 
-              <time title="Created: 2019-04-13 21:55:12 / Modified: 23:20:12" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
+              <time title="Created: 2019-04-13 21:55:12" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2019-04-14 07:22:31" itemprop="dateModified" datetime="2019-04-14T07:22:31+08:00">2019-04-14</time>
               
             
           </span>
@@ -373,11 +385,11 @@
 
       
         
-          <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：</p>
+          <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>序列生成有广泛的应用，如机器翻译、序列标注（实体识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：</p>
 <script type="math/tex; mode=display">
 L_{nll} = -\sum_{t=1}^T \log p(y_t|y_1,...,y_{t-1}, x) \tag{1}\label{eq1}</script><p>当模型训练完后，一般用如下greedy search的方式生成序列 $\hat{y}=[\hat{y}_1,…\hat{y}_T]$，即选每一个时间步骤上选择概率最大的输出，其中$\hat{y}_t$表示第 $t$ 步生成的输出：</p>
 <script type="math/tex; mode=display">
-\hat{y}_{t} = \underset{y_t}{\operatorname{argmax}}p(\hat{y}_t|\hat{y}_1,...\hat{y}_{t-1}, x)</script><p>对文本生成（如摘要、翻译）任务来说，评估函数一般是ROUGE, BLEU。监督学习很难直接对这类不可微分的评估函数进行学习。这就使得训练和测试的时候产生了偏差。于是强化学习（Reinforcement Learning）的优势就体现出来。强化学习不需要反馈（reward）或者损失是可微分，因而可以使用任何评估函数用来进行优化学习。<br>
+\hat{y}_{t} = \underset{y_t}{\operatorname{argmax}}p(\hat{y}_t|\hat{y}_1,...\hat{y}_{t-1}, x)</script><p>对文本生成（如摘要、翻译）任务来说，评估函数一般是ROUGE, BLEU。监督学习很难直接对这类不可微分的评估函数进行学习。这就使得训练和测试的时候产生了偏差。于是强化学习（Reinforcement Learning）的优势就体现出来。强化学习不需要反馈（reward）或者损失是可微分的，因而可以使用任何评估函数用来进行优化学习。<br>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2019/04/13/reinforced-generation/#more" rel="contents">
