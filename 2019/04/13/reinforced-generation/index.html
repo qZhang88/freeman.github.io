@@ -108,20 +108,24 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="FreeMan">
-<meta property="og:url" content="http://freeman.one/index.html">
+  <meta name="description" content="介绍序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：$$L_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习与序列生成">
+<meta property="og:url" content="http://freeman.one/2019/04/13/reinforced-generation/index.html">
 <meta property="og:site_name" content="FreeMan">
+<meta property="og:description" content="介绍序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：$$L_">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-13T13:55:12.689Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="FreeMan">
+<meta name="twitter:title" content="强化学习与序列生成">
+<meta name="twitter:description" content="介绍序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：$$L_">
 
 
 
 
 
 
-  <link rel="canonical" href="http://freeman.one/"/>
+  <link rel="canonical" href="http://freeman.one/2019/04/13/reinforced-generation/"/>
 
 
 
@@ -131,7 +135,7 @@
   };
 </script>
 
-  <title>FreeMan</title>
+  <title>强化学习与序列生成 | FreeMan</title>
   
 
 
@@ -178,8 +182,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -216,7 +219,7 @@
         
         
           
-          <li class="menu-item menu-item-home menu-item-active">
+          <li class="menu-item menu-item-home">
     <a href="/" rel="section">
       <i class="menu-item-icon fa fa-fw fa-home"></i> <br />Home</a>
   </li>
@@ -260,9 +263,9 @@
           
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -294,11 +297,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/04/13/reinforced-generation/" itemprop="url">
-                  强化学习与序列生成
-                </a>
+          <h1 class="post-title" itemprop="name headline">强化学习与序列生成
               
             
           </h1>
@@ -368,9 +367,7 @@
       
 
       
-        
-          
-            <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：<br>$$<br>L_{nll} = -\sum_{t=1}^T \log p(y_t|y_1,…,y_{t-1}, x) \tag{1}\label{eq1}<br>$$<br>当模型训练完后，一般用如下greedy search方式的方式生成序列 $\hat{y}=[\hat{y}_1,…\hat{y}_T]$，即选每一个时间步骤上选择概率最大的输出，其中$\hat{y}<em>t$表示第 $t$ 步生成的输出：<br>$$<br>\hat{y}</em>{t} = \underset{y_t}{\operatorname{argmax}}p(\hat{y}_t|\hat{y}<em>1,…\hat{y}</em>{t-1}, x)<br>$$<br>对文本生成（如摘要、翻译）任务来说，评估函数一般是ROUGE, BLEU。监督学习很难直接对这类不可微分的评估函数进行学习。这就使得训练和测试的时候产生了偏差。于是强化学习（Reinforcement Learning）的优势就体现出来。强化学习不需要反馈（reward）或者损失是可微分，因而可以使用任何评估函数用来进行优化学习。</p>
+        <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：<br>$$<br>L_{nll} = -\sum_{t=1}^T \log p(y_t|y_1,…,y_{t-1}, x) \tag{1}\label{eq1}<br>$$<br>当模型训练完后，一般用如下greedy search方式的方式生成序列 $\hat{y}=[\hat{y}_1,…\hat{y}_T]$，即选每一个时间步骤上选择概率最大的输出，其中$\hat{y}<em>t$表示第 $t$ 步生成的输出：<br>$$<br>\hat{y}</em>{t} = \underset{y_t}{\operatorname{argmax}}p(\hat{y}_t|\hat{y}<em>1,…\hat{y}</em>{t-1}, x)<br>$$<br>对文本生成（如摘要、翻译）任务来说，评估函数一般是ROUGE, BLEU。监督学习很难直接对这类不可微分的评估函数进行学习。这就使得训练和测试的时候产生了偏差。于是强化学习（Reinforcement Learning）的优势就体现出来。强化学习不需要反馈（reward）或者损失是可微分，因而可以使用任何评估函数用来进行优化学习。</p>
 <h3 id="强化学习框架"><a href="#强化学习框架" class="headerlink" title="强化学习框架"></a>强化学习框架</h3><p>就我所知，Ranzatoet al.(2016)的文章[^1]首先使用强化学习框架来训练序列生成，并参考Williams,1992[^2]和Zaremba &amp; Sutskever, 2015[^3]文中的policy gradient方法REINFORCE算法来训练。强化学习框架[^4]的基本要素有agent，state，action，reward，policy。在序列生成任务中，Ranzato将这些要素按如下方式对应：</p>
 <ul>
 <li>agent: 序列生成模型（RNN等）</li>
@@ -410,8 +407,6 @@
 <p>$$<br>\begin{align}<br>\frac{\partial L}{\partial o_{tj}} &amp; = -\frac{\partial \log(\frac{e^{o_{ti}}}{\sum_{k=1}^T e^{o_{tk}}})}{\partial o_{tj}} \<br> &amp; = -\frac{\partial ( o_{ti} - \log({\sum_{k=1}^T e^{o_{tk}}}))}{\partial o_{tj}} \<br> &amp; = \frac{1}{\sum_{k=1}^T e^{o_{tj}}}e^{o_{tj}}<br>\end{align}<br>$$</p>
 <p>所以最终：<br>$$<br>\frac{\partial L}{\partial o_t} = softmax(o_t) - \mathbb{1}(y_t)<br>$$</p>
 
-          
-        
       
     </div>
 
@@ -431,187 +426,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://freeman.one/2018/12/08/ssh-tunnel/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiao Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FreeMan">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/08/ssh-tunnel/" itemprop="url">
-                  autossh内网穿透
-                </a>
-              
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
+              <a href="/2018/12/08/ssh-tunnel/" rel="next" title="autossh内网穿透">
+                <i class="fa fa-chevron-left"></i> autossh内网穿透
+              </a>
             
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-12-08 16:18:26" itemprop="dateCreated datePublished" datetime="2018-12-08T16:18:26+08:00">2018-12-08</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-04-12 08:23:22" itemprop="dateModified" datetime="2019-04-12T08:23:22+08:00">2019-04-12</time>
-              
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/12/08/ssh-tunnel/" class="leancloud_visitors" data-flag-title="autossh内网穿透">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views: </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            <h3 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h3><p>公司主机 <strong>A</strong> (192.168.1.10) -&gt; VPS 服务器 <strong>S</strong> (123.123.123.123) -&gt; 家里主机 <strong>B</strong> (192.168.8.10).<br>用户名分别为userA，userS，userB</p>
-<h3 id="配置免密登录"><a href="#配置免密登录" class="headerlink" title="配置免密登录"></a>配置免密登录</h3><p>建立ssh隧道时，需要输入服务器 <strong>S</strong> 登录密码。通过设置免密登录，就无需每次建立ssh隧道时输入密码。登录家里的主机 <strong>B</strong> ，输入以下指令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用ssh-keygen生成一对rsa公私钥，生成的密钥对会存放在~/.ssh目录下。</span></span><br><span class="line">ssh-keygen</span><br><span class="line"></span><br><span class="line"><span class="comment"># B 的公钥拷贝给 S，输入 S 密码即可</span></span><br><span class="line">ssh-copy-id userS@123.123.123.123 -p 22</span><br></pre></td></tr></table></figure></p>
-<h3 id="配置反向隧道"><a href="#配置反向隧道" class="headerlink" title="配置反向隧道"></a>配置反向隧道</h3><p>还是在家里主机 <strong>B</strong> 上<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 安装autossh</span></span><br><span class="line">sudo apt-get install autossh</span><br><span class="line"></span><br><span class="line"><span class="comment"># 配置ssh反向隧道</span></span><br><span class="line">autossh -M 5678 -fNR 1234:localhost:22 userS@123.123.123.123</span><br></pre></td></tr></table></figure></p>
-<p>autossh命令后面的参数说明：</p>
-<ul>
-<li>M: 监听 <strong>S</strong> 公网服务器端口 5678 ，只要断开就重连</li>
-<li>f: 选项传递给 ssh 命令，让 SSH 隧道在后台运行。</li>
-<li>N: 不允许执行远程命令</li>
-<li>R: 1234:localhost:22, 将家里主机 <strong>B</strong> 的22端口和 VPS 服务器 <strong>S</strong> 的1234端口绑定，相当于远程端口映射</li>
-</ul>
-<p>如果你想系统启动时自动运行 SSH 隧道，你可以将上面的 autossh 命令添加到 /etc/rc.local。</p>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>在公司机器 <strong>A</strong> 上，输入以下指令登录家里主机。这里需要输入家里主机 <strong>B</strong> 的密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh userB@123.123.123.123 -p 1234</span><br></pre></td></tr></table></figure></p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><p><a href="https://blog.huzhifeng.com/2016/09/04/autossh/" target="_blank" rel="noopener">内网穿透之 autossh</a><br><a href="https://github.com/johnnian/Blog/issues/43" target="_blank" rel="noopener">autossh内外网穿透方法</a><br><a href="https://joeltsui.github.io/2018/04/18/autossh-nat-ddns" target="_blank" rel="noopener">autossh内网穿透解析</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -621,169 +457,15 @@
   </article>
 
 
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://freeman.one/2018/08/14/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Qiao Zhang">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="FreeMan">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/14/hello-world/" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2018-08-14 15:32:16" itemprop="dateCreated datePublished" datetime="2018-08-14T15:32:16+08:00">2018-08-14</time>
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-             <span id="/2018/08/14/hello-world/" class="leancloud_visitors" data-flag-title="Hello World">
-               <span class="post-meta-divider">|</span>
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               
-                 <span class="post-meta-item-text">Views: </span>
-               
-                 <span class="leancloud-visitors-count"></span>
-             </span>
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -804,8 +486,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -850,6 +541,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#强化学习框架"><span class="nav-number">2.</span> <span class="nav-text">强化学习框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标函数"><span class="nav-number">3.</span> <span class="nav-text">目标函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#策略梯度和REINFORCE算法"><span class="nav-number">4.</span> <span class="nav-text">策略梯度和REINFORCE算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#REINFORCE-with-a-Baseline"><span class="nav-number">5.</span> <span class="nav-text">REINFORCE with a Baseline</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Self-critical-Policy-Gradient"><span class="nav-number">6.</span> <span class="nav-text">Self-critical Policy Gradient</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">7.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#coherence-reward"><span class="nav-number">7.0.1.</span> <span class="nav-text">coherence reward</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#References"><span class="nav-number">8.</span> <span class="nav-text">References</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Appendix"><span class="nav-number">9.</span> <span class="nav-text">Appendix</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -980,6 +687,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.4.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.4.0"></script>
+
+
 
   
 
@@ -1014,43 +725,37 @@
   
   <script>
     
-    function showTime(Counter) {
-      var entries = [];
+    function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
 
-      $visitors.each(function () {
-        entries.push( $(this).attr("id").trim() );
-      });
-
-      Counter('get', '/classes/Counter', { where: JSON.stringify({ url: { "$in": entries } }) })
+      Counter('get', '/classes/Counter', { where: JSON.stringify({ url }) })
         .done(function ({ results }) {
-          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
-
-          if (results.length === 0) {
-            $visitors.find(COUNT_CONTAINER_REF).text(0);
-            return;
-          }
-
-          for (var i = 0; i < results.length; i++) {
-            var item = results[i];
-            var url = item.url;
-            var time = item.time;
-            var element = document.getElementById(url);
-
-            $(element).find(COUNT_CONTAINER_REF).text(time);
-          }
-          for(var i = 0; i < entries.length; i++) {
-            var url = entries[i];
-            var element = document.getElementById(url);
-            var countSpan = $(element).find(COUNT_CONTAINER_REF);
-            if( countSpan.text() == '') {
-              countSpan.text(0);
-            }
+          if (results.length > 0) {
+            var counter = results[0];
+            
+            Counter('put', `/classes/Counter/${counter.objectId}`, JSON.stringify({ time: { "__op":"Increment", "amount":1 } }))
+            
+            .done(function () {
+                  var $element = $(document.getElementById(url));
+                  $element.find('.leancloud-visitors-count').text(counter.time + 1);
+            })
+            
+            .fail(function ({ responseJSON }) {
+                console.log('Failed to save Visitor num, with error message: ' + responseJSON.error);
+            })
+          } else {
+            
+              var $element = $(document.getElementById(url));
+              $element.find('.leancloud-visitors-count').text('Counter not initialized! See more at console err msg.');
+              console.error('ATTENTION! LeanCloud counter has security bug, see here how to solve it: https://github.com/theme-next/hexo-leancloud-counter-security. \n But you also can use LeanCloud without security, by set \'security\' option to \'false\'.');
+            
           }
         })
-        .fail(function ({ responseJSON }) {
-          console.log("LeanCloud Counter Error: " + responseJSON.code + " " + responseJSON.error);
-        });
+      .fail(function ({ responseJSON }) {
+        console.log('LeanCloud Counter Error:' + responseJSON.code + " " + responseJSON.error);
+      });
     }
     
 
@@ -1070,9 +775,7 @@
             });
           };
           
-          if ($('.post-title-link').length >= 1) {
-            showTime(Counter);
-          }
+          addCount(Counter);
           
         })
     });
