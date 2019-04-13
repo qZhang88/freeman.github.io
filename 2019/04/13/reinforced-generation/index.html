@@ -115,7 +115,7 @@
 <meta property="og:site_name" content="FreeMan">
 <meta property="og:description" content="介绍序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：  L_">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-13T14:27:07.512Z">
+<meta property="og:updated_time" content="2019-04-13T14:44:03.595Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习与序列生成">
 <meta name="twitter:description" content="介绍序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：  L_">
@@ -322,7 +322,7 @@
                 
               
 
-              <time title="Created: 2019-04-13 21:55:12 / Modified: 22:27:07" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
+              <time title="Created: 2019-04-13 21:55:12 / Modified: 22:44:03" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
             
 
             
@@ -393,29 +393,29 @@ L_{rl} \approx -r(y^s)\sum_{t=1}^T \log p(y_t^s|y_1^s,...,y_{t-1}^s, x, \theta) 
 <li>通过强化学习把不可微分的评估函数分值变成了权重，然后类似监督学习一样进行梯度更新</li>
 <li>一般监督学习训练时都是使用真实（groud truth）的序列 $y$，而强化学习用的采样的序列$y^s$。</li>
 </ol>
-<h3 id="策略梯度和REINFORCE算法"><a href="#策略梯度和REINFORCE算法" class="headerlink" title="策略梯度和REINFORCE算法"></a>策略梯度和REINFORCE算法</h3><p>为了计算公式$\eqref{eq2}$的梯度，采用REINFORCE算法<sup><a href="#fn_2" id="reffn_2">2</a></sup><sup><a href="#fn_4" id="reffn_4">4</a></sup>。带有不可微分的反馈函数的期望梯度，可以按如下方式计算，即对策略的梯度（策略为参数$\theta$）：</p>
+<h3 id="策略梯度和REINFORCE算法"><a href="#策略梯度和REINFORCE算法" class="headerlink" title="策略梯度和REINFORCE算法"></a>策略梯度和REINFORCE算法</h3><p>为了计算公式$\eqref{eq2}$的梯度，采用REINFORCE算法<sup><a href="#fn_2" id="reffn_2">2</a></sup>,<sup><a href="#fn_4" id="reffn_4">4</a></sup>。带有不可微分的反馈函数的期望梯度，可以按如下方式计算，即对策略的梯度（策略为参数$\theta$）：</p>
 <script type="math/tex; mode=display">
 \nabla_\theta L_{rl} = -\mathbb{E}_{y \sim p(y|x,\theta)}[r(y) \nabla_\theta \log p(y|x,\theta)]</script><p>像上面提到的一样，对每一个训练样本，根据概率 $p(y_t|y_1,…,y_{t-1}, x, \theta)$用 Monte-Carlo采样一条序列$y^s = (y_1^s, … ,y_T^s)$。通过采样得到 $y^s$ 后，梯度公式就变为：</p>
 <script type="math/tex; mode=display">
 \nabla_\theta L_{rl} \approx r(y^s) \nabla_\theta \log p(y^s|x,\theta)</script><p>对比公式$\eqref{eq3}$ $L_{rl}$ 和公式$\eqref{eq1}$ $ L_{nll} $ ，可发现公式$\eqref{eq3}$ $L_{rl}$ 相当于在梯度更新时添加了 $r(y^s)$ 权重，若序列分值越大梯度便越大，反之则梯度减弱。在实际训练的时候，因为随机采样的搜索空间太大，直接进行强化学习会导致不稳定和很难收敛。所以通常先用$L_{nll}$进行预训练，然后再使用用 $L_{rl}$ 训练。</p>
 <h3 id="REINFORCE-with-a-Baseline"><a href="#REINFORCE-with-a-Baseline" class="headerlink" title="REINFORCE with a Baseline"></a>REINFORCE with a Baseline</h3><p>Ranzato文章<sup><a href="#fn_1" id="reffn_1">1</a></sup>指出REINFORCE算法会先建立一个baseline $\bar{r}_{t}$。引入baseline后目标函数为（非原文中的公式，此处根据理解改写）：</p>
 <script type="math/tex; mode=display">
-L_{rl} = - \sum_{t=1}^T （r(y^s) - \bar{r}_{t}) \log p(y_t^s|y_1^s,...,y_{t-1}^s, x, \theta) \tag{4} \label{eq4}</script><p>$\bar{r}_t$含义为：如果$r(y^s) &gt; \bar{r}_t$，鼓励选择当前的输出$y_t^s$，梯度方向为增大$y_t^s$的概率，反之则减少其概率。文中 $\bar{r}_t$ 用RNN的隐藏变量$\mathbf{h}_t$作为输入，使用线性回归模型，$\bar{r}_t = w \cdot \mathbf{h}_t + b $，用最小化损失函数$||\bar{r}_{t}^s - r(y^s)||^2$进行训练。</p>
-<p>Ranzato文章<sup><a href="#fn_1" id="reffn_1">1</a></sup>采用了一种混合策略，先使用$L_{nll}$训练$N^{nll}$轮，然后混合训练$N^{nll+rl}$轮，混合训练时前$(T - \Delta)$个time step用$L_{nll}$，后面$\Delta$个time step用$L_{rl}$学习。然后混合训练$N^{nll+rl}$轮$(T-2\Delta)$和$2\Delta$。到最终完全使用强化学习训练。</p>
-<h3 id="Self-critical-Policy-Gradient"><a href="#Self-critical-Policy-Gradient" class="headerlink" title="Self-critical Policy Gradient"></a>Self-critical Policy Gradient</h3><p>与Ranzato et al.(2016)<sup><a href="#fn_1" id="reffn_1">1</a></sup>不同是，Renie et al.(2016)<sup><a href="#fn_5" id="reffn_5">5</a></sup> 首先介绍了常数$b$作为baseline，表明它不影响梯度的<strong>期望</strong>，但是可以减少梯度估计时的<strong>方差</strong>。然后Renie et al.使用了self-critical policy sequence training (SCST)算法。算法在训练的每一循环产生两个输出序列：</p>
+L_{rl} = - \sum_{t=1}^T （r(y^s) - \bar{r}_{t}) \log p(y_t^s|y_1^s,...,y_{t-1}^s, x, \theta) \tag{4} \label{eq4}</script><p>$\bar{r}_t$含义为：如果$r(y^s) &gt; \bar{r}_t$，鼓励选择当前的输出$y_t^s$，梯度方向为增大$y_t^s$的概率，反之则减少其概率。文中 $\bar{r}_t$ 用RNN的隐藏变量$\mathbf{h}_t$作为输入，使用线性回归模型，$\bar{r}_t = w \cdot \mathbf{h}_t + b $，用最小化损失函数$||\bar{r}_t - r(y^s)||^2$进行训练。</p>
+<p>Ranzato文章<sup><a href="#fn_1" id="reffn_1">1</a></sup>采用了一种混合策略，先使用$L_{nll}$训练$N^{nll}$轮。然后混合训练$N^{nll+rl}$轮，混合训练时前$(T - \Delta)$个time step用$L_{nll}$，后面$\Delta$个time step用$L_{rl}$学习。接着继续混合训练$N^{nll+rl}$轮，这次time step分别为$(T-2\Delta)$和$2\Delta$。如此往复直到最终完全使用强化学习训练。</p>
+<h3 id="Self-critical-Policy-Gradient"><a href="#Self-critical-Policy-Gradient" class="headerlink" title="Self-critical Policy Gradient"></a>Self-critical Policy Gradient</h3><p>与Ranzato et al.(2016)<sup><a href="#fn_1" id="reffn_1">1</a></sup>不同是，Renie et al.(2016)<sup><a href="#fn_5" id="reffn_5">5</a></sup> 首先介绍了用常数$b$作为baseline，表明它不影响梯度的<strong>期望</strong>，但是可以减少梯度估计时的<strong>方差</strong>。然后Renie et al.使用了self-critical policy sequence training (SCST)算法。算法在训练的每一循环产生两个输出序列：</p>
 <ol>
 <li>$y^s$: 与上面相同，在每一个解码的步骤上根据 $p(y_t^s|y_1^s,…,y_{t-1}^s)$ 进行采样，随机选择 $y_t^s$ </li>
 <li>$\hat{y}$: 在每一个解码的步骤上选择 $p(y_t^s|y_1^s,…,y_{t-1}^s)$ 最大概率，即gready search选择 $\hat{y}_t$ </li>
 </ol>
 <p>得到两个序列后，强化学习的目标函数如下： </p>
 <script type="math/tex; mode=display">
-L_{rl} = -(r(y^s) - r(\hat{y})) \sum_{t=1}^T \log p(y_t^s|y_1^s,...,y_{t-1}^s, x) \tag{5} \label{eq5}</script><p>公式$\eqref{eq5}$和公式$\eqref{eq3}$对比多了一个基于gready search生成的序列$\hat{y}$的反馈，作为矫正。也就是将$y^s$和$\hat{y}$进行对比，所以叫<strong>self-critical</strong>。梯度下降更新$L_{rl}$ 的含义相当于，若$r(y^s) \gt r(\hat{y})$，采样的结果比gready search结果好，<strong>增大</strong>采样到的 $y^s$ 的概率，相反则减小其概率。而 $| r(y^s) - r(\hat{y}))|$ 值就是一个弹性的学习率权重。</p>
+L_{rl} = -(r(y^s) - r(\hat{y})) \sum_{t=1}^T \log p(y_t^s|y_1^s,...,y_{t-1}^s, x) \tag{5} \label{eq5}</script><p>公式$\eqref{eq5}$和公式$\eqref{eq3}$对比多了一个基于gready search生成的序列$\hat{y}$的反馈。作为矫正，也就是将$y^s$和$\hat{y}$进行对比，所以叫<strong>self-critical</strong>。梯度下降更新$L_{rl}$ 的含义相当于，若$r(y^s) \gt r(\hat{y})$，采样的结果比gready search结果好，<strong>增大</strong>采样到的 $y^s$ 的概率，相反则减小其概率。而 $| r(y^s) - r(\hat{y}))|$ 值就是一个弹性的学习率权重。</p>
 <p>Paulus et al. (2018)<sup><a href="#fn_6" id="reffn_6">6</a></sup>将$L_{rl}$和$L_{nll}$合在一起，来训练生成式摘要抽取:</p>
 <script type="math/tex; mode=display">
 L_{mixed} = \gamma L_{nll} + (1-\gamma)L_{rl}</script><p>从最终的目标函数来看，强化学习起到作用基本是给目标函数添加了基于ROUGE或BLEU评估函数带来的权值。有意思的是，只用 $L_{rl}$ 训练的结果在ROUGE评分上会比使用混合的高，但是人工评估，混合目标函数训练出的结果可读性和相关性会更好。这一点在下面的抽取式摘要中得到了类似的印证。</p>
-<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h5 id="coherence-reward"><a href="#coherence-reward" class="headerlink" title="coherence reward"></a>coherence reward</h5><p>Wu &amp; Hu, 2018<sup><a href="#fn_7" id="reffn_7">7</a></sup>文章使用强化学习，从文章中抽取句子，组合起来作为摘要。强化学习的架构基本相同，只是action变成一个二选一，通过{0, 1}判断是否抽取当前句子作为摘要。除此之外文中在使用ROUGE最为最终的反馈，还在每一个time step上引入了一个新的反馈coherence。最终训练时使用的目标函数为（非原文中的公式，而是基于理解和文中的算法步骤改写。）：</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h5 id="coherence-reward"><a href="#coherence-reward" class="headerlink" title="coherence reward"></a>coherence reward</h5><p>Wu &amp; Hu, 2018<sup><a href="#fn_7" id="reffn_7">7</a></sup>文章使用强化学习从文章中抽取句子作为摘要。强化学习的架构基本相同，只是action变成二选一，即通过{0, 1}判断是否抽取当前句子作为摘要。除此之外，文中在使用ROUGE作为最终的反馈，还在每一个time step上引入了一个新的反馈coherence。最终训练时使用的目标函数为（非原文中的公式，而是基于理解和文中的算法步骤改写）：</p>
 <script type="math/tex; mode=display">
-L_{rl} = - \sum_{t=1}^T  (r(y^s) + \lambda \sum_{i=t}^T{\tilde{r}_i}) \log p(y_t^s|y_1^s,...,y_{t-1}^s, x) \tag{6} \label{eq6}</script><p>公式中的 $\tilde{r}$ 在每一个action后立刻得到coherence反馈。文中单独训练了一个网络来判断两句话的coherence分值。若当前句子被选取为摘要，则跟上一句选取为摘要的句子计算词、coherence分值，反之分值为0。</p>
+L_{rl} = - \sum_{t=1}^T  (r(y^s) + \lambda \sum_{i=t}^T{\tilde{r}_i}) \log p(y_t^s|y_1^s,...,y_{t-1}^s, x) \tag{6} \label{eq6}</script><p>公式中的 $\tilde{r}$ 为在每一个action后立刻得到coherence反馈。文中单独训练了一个网络来判断两句话的coherence分值。若当前句子被选取为摘要，则跟上一句选取为摘要的句子计算词、coherence分值，反之分值为0。</p>
 <p>持续更新中…..</p>
 <h3 id="References"><a href="#References" class="headerlink" title="References"></a>References</h3><blockquote id="fn_1">
 <sup>1</sup>. Marc’Aurelio Ranzato, Sumit Chopra, Michael Auli, and Wojciech Zaremba. Sequence level training with recurrent neural networks. In _ICLR_ 2016.<a href="#reffn_1" title="Jump back to footnote [1] in the text."> &#8617;</a>
