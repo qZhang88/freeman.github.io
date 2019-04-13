@@ -115,7 +115,7 @@
 <meta property="og:site_name" content="FreeMan">
 <meta property="og:description" content="介绍序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：  L_">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-13T14:44:03.595Z">
+<meta property="og:updated_time" content="2019-04-13T14:50:06.268Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="强化学习与序列生成">
 <meta name="twitter:description" content="介绍序列生成有广泛的应用，如机器翻译、序列标注（实识别等）、文本摘要、问答等等。从机器学习的角度来说，序列生成就是给定一些上下文（context）$x$，然后生成序列 $y$（即 $y_1y_2…y_T$）。针对序列生成任务，使用监督学习时，不管是用CNN、RNN还是Transformer来建模型，最终优化的目标大多是最小化negative log-likelihood，目标函数公式如下：  L_">
@@ -322,7 +322,7 @@
                 
               
 
-              <time title="Created: 2019-04-13 21:55:12 / Modified: 22:44:03" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
+              <time title="Created: 2019-04-13 21:55:12 / Modified: 22:50:06" itemprop="dateCreated datePublished" datetime="2019-04-13T21:55:12+08:00">2019-04-13</time>
             
 
             
@@ -375,7 +375,7 @@
 <script type="math/tex; mode=display">
 L_{nll} = -\sum_{t=1}^T \log p(y_t|y_1,...,y_{t-1}, x) \tag{1}\label{eq1}</script><p>当模型训练完后，一般用如下greedy search方式的方式生成序列 $\hat{y}=[\hat{y}_1,…\hat{y}_T]$，即选每一个时间步骤上选择概率最大的输出，其中$\hat{y}_t$表示第 $t$ 步生成的输出：</p>
 <script type="math/tex; mode=display">
-\hat{y}_{t} = \underset{y_t}{\operatorname{argmax}}p(\hat{y}_t|\hat{y}_1,...\hat{y}_{t-1}, x)</script><p>对文本生成（如摘要、翻译）任务来说，评估函数一般是ROUGE, BLEU。监督学习很难直接对这类不可微分的评估函数进行学习。这就使得训练和测试的时候产生了偏差。于是强化学习（Reinforcement Learning）的优势就体现出来。强化学习不需要反馈（reward）或者损失是可微分，因而可以使用任何评估函数用来进行优化学习。</p>
+\hat{y}_{t} = \underset{y_t}{\operatorname{argmax}}p(\hat{y}_t|\hat{y}_1,...\hat{y}_{t-1}, x)</script><p>对文本生成（如摘要、翻译）任务来说，评估函数一般是ROUGE, BLEU。监督学习很难直接对这类不可微分的评估函数进行学习。这就使得训练和测试的时候产生了偏差。于是强化学习（Reinforcement Learning）的优势就体现出来。强化学习不需要反馈（reward）或者损失是可微分，因而可以使用任何评估函数用来进行优化学习。<br><a id="more"></a></p>
 <h3 id="强化学习框架"><a href="#强化学习框架" class="headerlink" title="强化学习框架"></a>强化学习框架</h3><p>就我所知，Ranzatoet al.(2016)的文章<sup><a href="#fn_1" id="reffn_1">1</a></sup>首先使用强化学习框架来训练序列生成，并参考Williams,1992<sup><a href="#fn_2" id="reffn_2">2</a></sup>和Zaremba &amp; Sutskever, 2015<sup><a href="#fn_3" id="reffn_3">3</a></sup>文中的policy gradient方法REINFORCE算法来训练。强化学习框架<sup><a href="#fn_4" id="reffn_4">4</a></sup>的基本要素有agent，state，action，reward，policy。在序列生成任务中，Ranzato将这些要素按如下方式对应：</p>
 <ul>
 <li>agent: 序列生成模型（RNN等）</li>
@@ -444,7 +444,7 @@ L_{rl} = - \sum_{t=1}^T  (r(y^s) + \lambda \sum_{i=t}^T{\tilde{r}_i}) \log p(y_t
 <blockquote id="fn_9">
 <sup>9</sup>. Yaser Keneshloo, Tian Shi, Naren Ramakrishnan and Chandan K. Reddy. Deep Reinforcement Learning For Sequence to Sequence Models, In _arXiv preprint arXiv:1805.09461_, 2018<a href="#reffn_9" title="Jump back to footnote [9] in the text."> &#8617;</a>
 </blockquote>
-<h3 id="Appendix"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix</h3><p>Ranzato et al.(2016)<sup><a href="#fn_1" id="reffn_1">1</a></sup>文中提到的了$\frac{\partial L}{\partial o_t} = softmax(o_t) - \mathbb{1}(y_t)$，$o_t = [o_{t1},…,o_{tT}]$ 是每一步softemax的输入，$L$为目标函数。这里给出梯度公式的推导：</p>
+<h3 id="Appendix"><a href="#Appendix" class="headerlink" title="Appendix"></a>Appendix</h3><p>Ranzato et al.(2016)<sup><a href="#fn_1" id="reffn_1">1</a></sup>文中提到了$\frac{\partial L}{\partial o_t} = softmax(o_t) - \mathbb{1}(y_t)$，其中$o_t = [o_{t1},…,o_{tT}]$ 是每一步softemax的输入，$L$为目标函数。下面对这个梯度公式做出了推导：</p>
 <script type="math/tex; mode=display">
 \begin{align}
 L & = -\sum_{t=1}^T \log p(y_t|y_1,...,y_{t-1}, x) \\
@@ -573,7 +573,7 @@ L & = -\sum_{t=1}^T \log p(y_t|y_1,...,y_{t-1}, x) \\
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">2</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
